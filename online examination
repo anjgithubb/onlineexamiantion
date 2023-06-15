@@ -1,0 +1,61 @@
+import java.util.Scanner;
+public class OnlineExaminationSystem {
+    private static final int EXAM_DURATION = 90;   
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in); 
+        boolean loggedIn = login(scanner);
+        if (!loggedIn) {
+            System.out.println("Login failed. Exited the login page..");
+            System.exit(0);
+        }   
+        String username = getUsername(scanner);
+        updateProfileAndPassword(username, scanner);
+    
+        System.out.println("Welcome, " + username + "!");
+        System.out.println("You have " + EXAM_DURATION + " minutes to complete the exam.");
+        System.out.println("Press enter key to start the exam.");
+        scanner.nextLine(); 
+        Thread timer = new Thread(new Timer());
+        timer.start();
+        
+        selectAnswers(scanner);
+        
+        System.out.println("Time up! Your exam will be automatically submitted.");
+        loggedIn = false;
+        System.out.println("Exam submitted. Logging out...");
+    }
+    public static boolean login(Scanner scanner) {
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        
+        if (username.equals("anjali") && password.equals("anjali123")) {
+            System.out.println(" congratulations, Login successfully !");
+            return true;
+        } else {
+            System.out.println("incorrect username or password. Please try again.");
+            return false;
+        }
+    }
+    public static String getUsername(Scanner scanner) {
+        System.out.print("Create a new username: ");
+        return scanner.nextLine();
+    }
+    public static void updateProfileAndPassword(String username, Scanner scanner) {
+        System.out.println("create a new profile and Password for " + username);  
+    }
+    public static void selectAnswers(Scanner scanner) {
+        System.out.println("Select the correct answer for each question:");
+    }
+    static class Timer implements Runnable {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(EXAM_DURATION * 60 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
